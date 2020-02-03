@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+:root {
+  --gray-light: #f5f5f5;
+  --gray-light2: #ebebeb;
+  --gray-light3: #b9b9b9;
+  --red-light: #fa3b5b;
+  --red-light2: #fb5772;
+  --black-light: #4b4b4b;
+  --black-light2: #363636;
+}
+
+body {
+  background-color: var(--gray-light);
+}
+
+h2 {
+  font-weight: normal;
+}
+
+.btn {
+  padding: 10px 15px;
+}
+
+.btn-red {
+  background-color: var(--red-light);
+}
+
+i {
+  color: black;
+}
+
+.input-group {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 7px;
+}
+
+.input-group label {
+  font-size: 11pt;
+  padding-bottom: 3px;
+}
+
+.input-group input, .input-group select {
+  background-color: transparent;
+  border: 1px solid var(--gray-light3);
+  padding: 7px 10px;
+  width: 100%;
+}
+
+.input-group select {
+  padding: 7px 10px 7px 5px;
+}
+
+.input-group input:focus, .input-group select:focus {
+  outline: 0;
+  border: 1px solid var(--red-light);
+  box-shadow: 0 0 2px var(--red-light);
+  transition-property: box-shadow, border;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+.btn-red:hover {
+    background-color: var(--red-light2);
+    transition-property: background-color;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out;
+    cursor: pointer;
+  }
+
+#registered-products-body {
+  margin: 30px auto 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: white;
+  width: 80vw;
+  border-radius: 4px;
+  box-shadow: 0 0 3px var(--black-light);
+}
+
+#registered-products-body > h2 {
+  text-align: center;
+  font-size: 14pt;
+  padding-bottom: 20px;
+}
+
+#registered-products-table {
+  width: 100%;
+}
+
+#registered-products-table > table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#registered-products-table thead {
+  background-color: var(--red-light);
+  border: 1px solid var(--red-light);
+  font-weight: normal;
+}
+
+#registered-products-table tbody tr:nth-child(even) {
+  background-color: var(--gray-light2);
+}
+
+#registered-products-table th {
+  font-weight: normal;
+  font-size: 13pt;
+  padding: 7px 0;
+  text-align: center;
+}
+
+#registered-products-table td {
+  border: 1px solid var(--gray-light3);
+  font-size: 11pt;
+  padding: 7px 0 7px 5px;
+}
+
+#registered-products-btngroup-body {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+#registered-products-btngroup-left, #registered-products-btngroup-right {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--red-light);
+  box-shadow: 0 0 1px var(--black-light2);
+  border-radius: 10px;
+}
+
+#registered-products-btngroup-left button:first-child, #registered-products-btngroup-right button:first-child {
+  border-right: 1px solid var(--black-light2);
+  border-radius: 10px 0 0 10px;
+}
+
+#registered-products-btngroup-left button:last-child, #registered-products-btngroup-right button:last-child {
+  border-left: 1px solid var(--black-light2);
+  border-radius: 0 10px 10px 0;
+}
+
+#registered-products-btngroup-left span {
+  padding: 0 7px;
+  cursor: default;
+  user-select: none;
+}
+
+#product-modal-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: #0000007c;
+}
+
+#product-modal-foreground {
+  padding: 20px;
+  background-color: white;
+  width: 60vw;
+  border-radius: 4px;
+  box-shadow: 0 0 5px var(--black-light);
+}
+
+#product-modal-foreground > h2 {
+  text-align: center;
+  font-size: 14pt;
+  padding-bottom: 20px;
+}
+
+#product-modal-foreground form {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+}
+
+#product-modal-foreground .form-btngroup {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+#product-modal-foreground .form-btngroup button {
+  border-radius: 10px;
+}
