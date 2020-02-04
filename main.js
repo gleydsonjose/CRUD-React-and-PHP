@@ -1,26 +1,4 @@
-const listProduct = [
-  {
-    id: 1,
-    name: 'Keyboard CK104',
-    manufacturer: 'Motospeed',
-    price: 50,
-    quantity: 7
-  },
-  {
-    id: 2,
-    name: 'Mouse DeathAdder 3.5G Blue',
-    manufacturer: 'Razer',
-    price: 40,
-    quantity: 10
-  },
-  {
-    id: 3,
-    name: 'Monitor SyncMaster 732NW',
-    manufacturer: 'Samsung',
-    price: 150,
-    quantity: 5
-  },
-];
+'use strict';
 
 function TableHead(props) {
   return (
@@ -36,11 +14,11 @@ function TableHead(props) {
 
 function TableData(props) {
   return (
-    listProduct.map((product) =>
+    props.listProduct.map((product) =>
       <tr key={product.id}>
         <td>{product.id}</td>
         <td>{product.name}</td>
-        <td>{product.price}</td>
+        <td>US$ {product.price}</td>
         <td>{product.quantity}</td>
         <td>{product.manufacturer}</td>
       </tr>
@@ -55,7 +33,7 @@ function Table(props) {
         <TableHead />
       </thead>
       <tbody>
-        <TableData />
+        <TableData listProduct={props.listProduct}/>
       </tbody>
     </table>
   );
@@ -97,13 +75,13 @@ function MainRightButtonsGroup(props) {
 function Input(props) {
   const inputId = props.id;
   const inputPlaceholder = props.placeholder;
-  const inputType = props.inputType;
+  const inputType = props.type;
   const labelText = props.labelText;
 
   return (
     <div className="input-group">
       <label htmlFor={inputId}>{labelText}</label>
-      <input type={inputType} placeholder={inputPlaceholder}/>
+      <input type={inputType} placeholder={inputPlaceholder} name={props.nameInput} value={props.inputOrSelectValue} onChange={props.onChangeInputOrSelect}/>
     </div>
   );
 }
@@ -114,9 +92,9 @@ function SelectForm(props) {
   return (
     <div className="input-group">
       <label htmlFor={selectId}>Choose a product</label>
-      <select id={selectId}>
-        <option value="none">None</option>
-        {listProduct.map((product) => 
+      <select id={selectId} name={props.nameInput} value={props.inputOrSelectValue} onChange={props.onChangeInputOrSelect} >
+        <option value="">None</option>
+        {props.listProduct.map((product) => 
           <option key={product.id} value={product.id}>{product.name}</option>
         )}
       </select>
@@ -140,7 +118,7 @@ function ModalBody(props) {
 
           <div className="form-btngroup">
             <Button icon={<i className="fas fa-chevron-circle-left"></i>} text="Back" onClick={props.onClickCloseModal} />
-            <Button type="submit" icon={btnSubmitIcon} text={btnSubmitText} />
+            <Button type="submit" icon={btnSubmitIcon} text={btnSubmitText} onClick={props.onClickSubmitData} />
           </div>
         </form>
       </div>
@@ -164,11 +142,40 @@ class Modals extends React.Component {
             btnSubmitIcon={<i className="fas fa-plus-circle"></i>}
             btnSubmitText="Add"
             onClickCloseModal={this.props.onClickCloseModal}
-            onClickCloseModalBackground={this.props.onClickCloseModalBackground}>
-            <Input type="text" placeholder="Type product name" labelText="Name" />
-            <Input type="text" placeholder="Type product manufacturer name" labelText="Manufacturer" />
-            <Input type="text" placeholder="Type product price" labelText="Price" />
-            <Input type="number" placeholder="Type product quantity" labelText="Quantity" />
+            onClickCloseModalBackground={this.props.onClickCloseModalBackground}
+            onClickSubmitData={this.props.onClickSubmitData} >
+
+            <Input
+              type="text"
+              placeholder="Type product name"
+              labelText="Name"
+              nameInput="addModalInputName"
+              inputOrSelectValue={this.props.addModalInputName}
+              onChangeInputOrSelect={this.props.onChangeInputOrSelect} />
+
+            <Input
+              type="text"
+              placeholder="Type product manufacturer name"
+              labelText="Manufacturer"
+              nameInput="addModalInputManufacturer"
+              inputOrSelectValue={this.props.addModalInputManufacturer}
+              onChangeInputOrSelect={this.props.onChangeInputOrSelect} />
+
+            <Input
+              type="text"
+              placeholder="Type product price"
+              labelText="Price"
+              nameInput="addModalInputPrice"
+              inputOrSelectValue={this.props.addModalInputPrice}
+              onChangeInputOrSelect={this.props.onChangeInputOrSelect} />
+               
+            <Input
+              type="number"
+              placeholder="Type product quantity"
+              labelText="Quantity"
+              nameInput="addModalInputQuantity"
+              inputOrSelectValue={this.props.addModalInputQuantity}
+              onChangeInputOrSelect={this.props.onChangeInputOrSelect} />
           </ModalBody>
         </div>
       );
@@ -181,8 +188,15 @@ class Modals extends React.Component {
               btnSubmitIcon={<i className="fas fa-trash-alt"></i>}
               btnSubmitText="Delete"
               onClickCloseModal={this.props.onClickCloseModal}
-              onClickCloseModalBackground={this.props.onClickCloseModalBackground}>
-              <SelectForm id="selectId" />
+              onClickCloseModalBackground={this.props.onClickCloseModalBackground}
+              onClickSubmitData={this.props.onClickSubmitData} >
+
+              <SelectForm
+                id="selectId"
+                listProduct={this.props.listProduct}
+                nameInput="deleteModalSelect"
+                inputOrSelectValue={this.props.deleteModalSelect}
+                onChangeInputOrSelect={this.props.onChangeInputOrSelect} />
             </ModalBody>
           </div>
         );
@@ -195,12 +209,51 @@ class Modals extends React.Component {
               btnSubmitIcon={<i className="fas fa-edit"></i>}
               btnSubmitText="Update"
               onClickCloseModal={this.props.onClickCloseModal}
-              onClickCloseModalBackground={this.props.onClickCloseModalBackground}>
-              <SelectForm id="selectId" />
-              <Input type="text" placeholder="Type product name" labelText="Name" id="add-product-name-product" />
-              <Input type="text" placeholder="Type product manufacturer name" labelText="Manufacturer" id="add-product-manufacturer-product" />
-              <Input type="text" placeholder="Type product price" labelText="Price" id="add-product-price-product" />
-              <Input type="number" placeholder="Type product quantity" labelText="Quantity" id="add-product-quantity-product" />
+              onClickCloseModalBackground={this.props.onClickCloseModalBackground}
+              onClickSubmitData={this.props.onClickSubmitData} >
+
+              <SelectForm
+                id="selectId"
+                listProduct={this.props.listProduct}
+                nameInput="updateModalSelect"
+                inputOrSelectValue={this.props.updateModalSelect}
+                onChangeInputOrSelect={this.props.onChangeInputOrSelect} />
+
+              <Input
+                type="text"
+                placeholder="Type product name"
+                labelText="Name"
+                id="update-product-name-product"
+                nameInput="updateModalInputName"
+                inputOrSelectValue={this.props.updateModalInputName}
+                onChangeInputOrSelect={this.props.onChangeInputOrSelect} />
+
+              <Input
+                type="text"
+                placeholder="Type product manufacturer name"
+                labelText="Manufacturer"
+                id="update-product-manufacturer-product"
+                nameInput="updateModalInputManufacturer"
+                inputOrSelectValue={this.props.updateModalInputManufacturer}
+                onChangeInputOrSelect={this.props.onChangeInputOrSelect} />
+
+              <Input
+                type="text"
+                placeholder="Type product price"
+                labelText="Price"
+                id="update-product-price-product"
+                nameInput="updateModalInputPrice"
+                inputOrSelectValue={this.props.updateModalInputPrice}
+                onChangeInputOrSelect={this.props.onChangeInputOrSelect} />
+
+              <Input
+                type="number"
+                placeholder="Type product quantity"
+                labelText="Quantity"
+                id="update-product-quantity-product"
+                nameInput="updateModalInputQuantity"
+                inputOrSelectValue={this.props.updateModalInputQuantity}
+                onChangeInputOrSelect={this.props.onChangeInputOrSelect} />
             </ModalBody>
           </div>
         );
@@ -213,6 +266,7 @@ class Modals extends React.Component {
 class MainView extends React.Component {
   constructor(props) {
     super(props);
+    this.handleDataInput = this.handleDataInput.bind(this);
     this.handleBtnPrev = this.handleBtnPrev.bind(this);
     this.handleBtnNext = this.handleBtnNext.bind(this);
     this.handleOpenAddModal = this.handleOpenAddModal.bind(this);
@@ -220,19 +274,89 @@ class MainView extends React.Component {
     this.handleOpenUpdateModal = this.handleOpenUpdateModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleCloseModalClickBackground = this.handleCloseModalClickBackground.bind(this);
+    this.handleSubmitData = this.handleSubmitData.bind(this);
 
     this.state = {
       modalCurrent: false,
-      pageCurrent: 1
+      pageCurrent: 1,
+      listProduct: [],
+      addModalInputName: '',
+      addModalInputManufacturer: '',
+      addModalInputPrice: '',
+      addModalInputQuantity: '',
+      deleteModalSelect: '',
+      updateModalSelect: '',
+      updateModalInputName: '',
+      updateModalInputManufacturer: '',
+      updateModalInputPrice: '',
+      updateModalInputQuantity: '',
+      limitListDataCurrent: 6,
+      listCurrentFirstData: 0
     };
   };
 
+  showOneProductData() {
+    const showOneProductData = new FormData();
+    showOneProductData.append('updateModalSelect', this.state.updateModalSelect);
+
+    axios.post('scripts_server/crudShowOneProductData.php', showOneProductData).then(response => {
+      const data = response.data;
+      this.setState({ 
+        updateModalInputName: data.name,
+        updateModalInputManufacturer: data.manufacturer,
+        updateModalInputPrice: data.price,
+        updateModalInputQuantity: data.quantity
+      });
+    }).catch(error => { console.log(error) });
+  }
+
+  showProducts() {
+    const showProducts = new FormData();
+    showProducts.append('limitListDataCurrent', this.state.limitListDataCurrent);
+    showProducts.append('listCurrentFirstData', this.state.listCurrentFirstData);
+
+    axios.post('scripts_server/crudShowProductsData.php', showProducts).then(response => {
+      const data = response.data;
+      this.setState({ listProduct: data });
+    }).catch(error => { console.log(error) })
+  }
+
+  componentDidMount() {
+    this.showProducts();
+  }
+
+  handleDataInput(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    const modalCurrent = this.state.modalCurrent;
+
+    this.setState({
+      [name]: value
+    }, () => {
+      modalCurrent === "updateModal" && this.showOneProductData();
+    });
+  }
+
   handleBtnPrev() {
-    this.state.pageCurrent > 1 &&  this.setState(state => ({ pageCurrent: state.pageCurrent -= 1 }))
+    if(this.state.listCurrentFirstData > 0) {
+      this.setState(
+        state => ({ listCurrentFirstData: state.listCurrentFirstData -= 6 }),
+        () => {
+          this.showProducts();
+        });
+      this.setState(state => ({ pageCurrent: state.pageCurrent -= 1 }));
+    }
   }
 
   handleBtnNext() {
-    this.state.pageCurrent < 10 &&  this.setState(state => ({ pageCurrent: state.pageCurrent += 1 }))
+    if(this.state.listProduct.length === 6) {
+      this.setState(
+        state => ({ listCurrentFirstData: state.listCurrentFirstData += 6 }),
+        () => {
+          this.showProducts();
+        });
+      this.setState(state => ({ pageCurrent: state.pageCurrent += 1 }));
+    }
   }
 
   handleOpenAddModal() {
@@ -263,13 +387,62 @@ class MainView extends React.Component {
     event.target.id === "product-modal-background" && this.setState({ modalCurrent: false });
   };
 
+  handleSubmitData(e) {
+    e.preventDefault();
+    const modalCurrent = this.state.modalCurrent;
+    let formDataSubmit = {};
+
+    if(modalCurrent === 'addModal') {
+      let addModalInputName = this.state.addModalInputName;
+      let addModalInputManufacturer = this.state.addModalInputManufacturer;
+      let addModalInputPrice = this.state.addModalInputPrice;
+      let addModalInputQuantity = this.state.addModalInputQuantity;
+
+      formDataSubmit = {};
+      formDataSubmit = new FormData();
+      formDataSubmit.append('modalCurrent', modalCurrent);
+      formDataSubmit.append('addModalInputName', addModalInputName);
+      formDataSubmit.append('addModalInputManufacturer', addModalInputManufacturer);
+      formDataSubmit.append('addModalInputPrice', addModalInputPrice);
+      formDataSubmit.append('addModalInputQuantity', addModalInputQuantity);
+
+    } else if (modalCurrent === 'deleteModal') {
+      let deleteModalSelect = this.state.deleteModalSelect;
+
+      formDataSubmit = {};
+      formDataSubmit = new FormData();
+      formDataSubmit.append('modalCurrent', modalCurrent);
+      formDataSubmit.append('deleteModalSelect', deleteModalSelect);
+
+    } else if (modalCurrent === 'updateModal') {
+      let updateModalSelect = this.state.updateModalSelect;
+      let updateModalInputName = this.state.updateModalInputName;
+      let updateModalInputManufacturer = this.state.updateModalInputManufacturer;
+      let updateModalInputPrice = this.state.updateModalInputPrice;
+      let updateModalInputQuantity = this.state.updateModalInputQuantity;
+
+      formDataSubmit = {};
+      formDataSubmit = new FormData();
+      formDataSubmit.append('modalCurrent', modalCurrent);
+      formDataSubmit.append('updateModalSelect', updateModalSelect);
+      formDataSubmit.append('updateModalInputName', updateModalInputName);
+      formDataSubmit.append('updateModalInputManufacturer', updateModalInputManufacturer);
+      formDataSubmit.append('updateModalInputPrice', updateModalInputPrice);
+      formDataSubmit.append('updateModalInputQuantity', updateModalInputQuantity);
+    }
+
+    modalCurrent && axios.post('scripts_server/crudDataChanges.php', formDataSubmit)
+      .then(response => { this.showProducts(); })
+      .catch(error => { console.log(error) })
+  }
+
   render() {
     return (
       <div id="main">
         <div id="registered-products-body">
           <h2>Registered Products</h2>
           <div id="registered-products-table">
-            <Table />
+            <Table listProduct={this.state.listProduct}/>
           </div>
 
           <div id="registered-products-btngroup-body">
@@ -287,7 +460,20 @@ class MainView extends React.Component {
         {<Modals /> && <Modals
                          modalCurrent={this.state.modalCurrent}
                          onClickCloseModal={this.handleCloseModal}
-                         onClickCloseModalBackground={this.handleCloseModalClickBackground} />}
+                         onClickCloseModalBackground={this.handleCloseModalClickBackground}
+                         listProduct={this.state.listProduct}
+                         onChangeInputOrSelect={this.handleDataInput}
+                         addModalInputName={this.state.addModalInputName}
+                         addModalInputManufacturer={this.state.addModalInputManufacturer}
+                         addModalInputPrice={this.state.addModalInputPrice}
+                         addModalInputQuantity={this.state.addModalInputQuantity}
+                         deleteModalSelect={this.state.deleteModalSelect}
+                         updateModalSelect={this.state.updateModalSelect}
+                         updateModalInputName={this.state.updateModalInputName}
+                         updateModalInputManufacturer={this.state.updateModalInputManufacturer}
+                         updateModalInputPrice={this.state.updateModalInputPrice}
+                         updateModalInputQuantity={this.state.updateModalInputQuantity}
+                         onClickSubmitData={this.handleSubmitData} /> }
       </div>
     );
   };
