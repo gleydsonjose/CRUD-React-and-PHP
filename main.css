@@ -15,7 +15,7 @@
   --red-light: #fa3b5b;
   --red-light2: #fb5772;
   --black-light: #4b4b4b;
-  --black-light2: #363636;
+  --black-light2: #2e2e2e;
 }
 
 body {
@@ -145,13 +145,17 @@ i {
   border-radius: 10px;
 }
 
+#registered-products-btngroup-right i {
+  margin-right: 6px;
+}
+
 #registered-products-btngroup-left button:first-child, #registered-products-btngroup-right button:first-child {
-  border-right: 1px solid var(--black-light2);
+  border-right: 1px solid var(--black-light);
   border-radius: 10px 0 0 10px;
 }
 
 #registered-products-btngroup-left button:last-child, #registered-products-btngroup-right button:last-child {
-  border-left: 1px solid var(--black-light2);
+  border-left: 1px solid var(--black-light);
   border-radius: 0 10px 10px 0;
 }
 

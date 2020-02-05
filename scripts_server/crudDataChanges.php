@@ -1,5 +1,5 @@
 <?php
-require_once('crudShowData.php');
+require_once('crudClasses.php');
 
 $modalCurrent = isset($_POST['modalCurrent']) ? strip_tags(trim($_POST['modalCurrent'])) : "";
 $addModalInputName = isset($_POST['addModalInputName']) ? strip_tags(trim($_POST['addModalInputName'])) : "";
@@ -15,17 +15,17 @@ $updateModalInputQuantity = isset($_POST['updateModalInputQuantity']) ? strip_ta
 
 switch($modalCurrent):
   case "addModal":
-    $insertnNewProduct = new InsertData("dbname", "host", "user", "password");
+    $insertnNewProduct = new InsertData('dbname', 'host', 'user', 'password');
     $insertnNewProduct->MySQLCon();
     $insertnNewProduct->insertNewProduct($addModalInputName, $addModalInputManufacturer, $addModalInputPrice, $addModalInputQuantity);
     break;
   case "deleteModal":
-    $deleteProductId = new DeleteData("dbname", "host", "user", "password");
+    $deleteProductId = new DeleteData('dbname', 'host', 'user', 'password');
     $deleteProductId->MySQLCon();
     $deleteProductId->deleteProductId($deleteModalSelect);
     break;
   case "updateModal":
-    $updateProductData = new UpdateData("dbname", "host", "user", "password");
+    $updateProductData = new UpdateData('dbname', 'host', 'user', 'password');
     $updateProductData->MySQLCon();
     $updateProductData->updateProductData($updateModalSelect, $updateModalInputName, $updateModalInputManufacturer, $updateModalInputPrice, $updateModalInputQuantity);
     break;

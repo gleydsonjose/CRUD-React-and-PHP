@@ -192,7 +192,7 @@ class Modals extends React.Component {
               onClickSubmitData={this.props.onClickSubmitData} >
 
               <SelectForm
-                id="selectId"
+                id="selectIdDelete"
                 listProduct={this.props.listProduct}
                 nameInput="deleteModalSelect"
                 inputOrSelectValue={this.props.deleteModalSelect}
@@ -213,7 +213,7 @@ class Modals extends React.Component {
               onClickSubmitData={this.props.onClickSubmitData} >
 
               <SelectForm
-                id="selectId"
+                id="selectIdUpdate"
                 listProduct={this.props.listProduct}
                 nameInput="updateModalSelect"
                 inputOrSelectValue={this.props.updateModalSelect}
@@ -329,11 +329,14 @@ class MainView extends React.Component {
     const name = e.target.name;
     const value = e.target.value;
     const modalCurrent = this.state.modalCurrent;
+    const elementId = e.target.id;
 
     this.setState({
       [name]: value
     }, () => {
-      modalCurrent === "updateModal" && this.showOneProductData();
+      if(modalCurrent === "updateModal" && elementId === "selectIdUpdate"){
+        this.showOneProductData();
+      }
     });
   }
 
